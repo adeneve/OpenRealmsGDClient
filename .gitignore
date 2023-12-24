@@ -13,3 +13,20 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+
+# Godot 4+ specific ignores
+Client/.godot/
+
+# Godot-specific ignores
+Client/.import/
+Client/export.cfg
+Client/export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+Client/*.translation
+
+# Mono-specific ignores
+Client/.mono/
+Client/data_*/
+Client/mono_crash.*.json
