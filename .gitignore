@@ -30,3 +30,7 @@ Client/*.translation
 Client/.mono/
 Client/data_*/
 Client/mono_crash.*.json
+
+#vscode
+.DS_Store
+
