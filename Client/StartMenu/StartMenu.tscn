@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://drjm3l4qg8tvx"]
+
+[ext_resource type="Texture2D" uid="uid://6sya06424rxt" path="res://StartMenu/startMenuPic.png" id="1_ds48x"]
+[ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_dmt0x"]
+
+[node name="StartMenu" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ds48x")
+expand_mode = 1
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_left = 304.0
+offset_top = 173.0
+offset_right = 837.0
+offset_bottom = 545.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hovered_color = Color(0.2, 0.870588, 0, 1)
+theme_override_fonts/font = ExtResource("2_dmt0x")
+theme_override_font_sizes/font_size = 32
+item_count = 3
+item_0/text = "Join Server"
+item_1/text = "Create Account"
+item_2/text = "EXIT"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 274.0
+offset_top = 67.0
+offset_right = 875.0
+offset_bottom = 145.0
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_dmt0x")
+theme_override_font_sizes/font_size = 64
+text = "Godot Online"
+horizontal_alignment = 1
+vertical_alignment = 1

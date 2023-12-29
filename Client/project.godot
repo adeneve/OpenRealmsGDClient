@@ -11,5 +11,10 @@ config_version=5
 [application]
 
 config/name="Godot Online Client"
+run/main_scene="res://StartMenu/StartMenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="viewport"
