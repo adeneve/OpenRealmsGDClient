@@ -44,20 +44,20 @@ offset_bottom = 491.0
 custom_minimum_size = Vector2(500, 2.08165e-12)
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+[node name="EmailAddress" type="LineEdit" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 placeholder_text = "Email Address"
 
-[node name="LineEdit2" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+[node name="EmailAddressConfirm" type="LineEdit" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Confirm Email Address"
 
-[node name="LineEdit3" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+[node name="Phone" type="LineEdit" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Phone Number"
 
-[node name="LineEdit4" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+[node name="Username" type="LineEdit" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Username"
 
