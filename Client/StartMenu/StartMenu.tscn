@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://drjm3l4qg8tvx"]
 
-[ext_resource type="Texture2D" uid="uid://6sya06424rxt" path="res://StartMenu/startMenuPic.png" id="1_ds48x"]
+[ext_resource type="Texture2D" uid="uid://b7y0mfaq5qxme" path="res://StartMenu/startMenuPic.png" id="1_ds48x"]
 [ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_dmt0x"]
 [ext_resource type="Script" path="res://StartMenu/ItemList.gd" id="3_n1eof"]
 [ext_resource type="AudioStream" uid="uid://cvq0yqtg20i6w" path="res://Music/UI_Select_chime.wav" id="4_3owfl"]
@@ -9,9 +9,6 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 3.0
-offset_right = -3.0
-offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ds48x")
@@ -34,9 +31,21 @@ item_1/text = "Create Account"
 item_2/text = "EXIT"
 script = ExtResource("3_n1eof")
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="ItemList"]
+initial_position = 1
+size = Vector2i(770, 288)
+dialog_text = "By joining a server you are agreeing to the following
+- I am 18 years old or older
+- I understand the risks of joining someone elses server. These risks include but are not limited to:
+  * exposure of my public IP address (if not using a VPN)
+  * loss of uploaded assets
+
+By clicking OK you agree to all the statements above.
+
+  "
+
 [node name="UISelectAudio" type="AudioStreamPlayer" parent="ItemList"]
 stream = ExtResource("4_3owfl")
-volume_db = -25.297
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2

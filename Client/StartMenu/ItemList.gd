@@ -17,8 +17,12 @@ func _process(_delta):
 func _on_item_clicked(index, _at_position, _mouse_button_index):
 	$UISelectAudio.play()
 	match index:
+		0:
+			$ConfirmationDialog.visible = true
 		1:
 			get_tree().change_scene_to_file(accountCreatePath)
 		2:
 			get_tree().quit()
 	pass # Replace with function body.
+
+

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://crc77sjiuw8nh"]
 
-[ext_resource type="Texture2D" uid="uid://6sya06424rxt" path="res://StartMenu/startMenuPic.png" id="1_vihaf"]
+[ext_resource type="Texture2D" uid="uid://b7y0mfaq5qxme" path="res://StartMenu/startMenuPic.png" id="1_vihaf"]
 [ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_d7e3e"]
 [ext_resource type="Script" path="res://StartMenu/SubMenus/AccountCreate/AccountCreate.gd" id="2_watbl"]
 [ext_resource type="Script" path="res://StartMenu/SubMenus/AccountCreate/BackButton.gd" id="3_m0fko"]
@@ -9,9 +9,6 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1.0
-offset_right = 6.0
-offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_vihaf")

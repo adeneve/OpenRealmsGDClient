@@ -1,9 +1,40 @@
-[gd_scene format=3 uid="uid://d2dwqvt1bptyt"]
+[gd_scene load_steps=3 format=3 uid="uid://d2dwqvt1bptyt"]
 
-[node name="JoinServer" type="Control"]
-layout_mode = 3
+[ext_resource type="Texture2D" uid="uid://b7y0mfaq5qxme" path="res://StartMenu/startMenuPic.png" id="1_1vssv"]
+[ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_55x6t"]
+
+[node name="JoinServer" type="TextureRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("1_1vssv")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = 274.0
+offset_top = 67.0
+offset_right = 875.0
+offset_bottom = 145.0
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_55x6t")
+theme_override_font_sizes/font_size = 64
+text = "Join Server"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+size = Vector2i(770, 288)
+visible = true
+dialog_text = "By joining a server you are agreeing to the following
+- I am 18 years old or older
+- I understand the risks of joining someone elses server. These risks include but are not limited to:
+  * exposure of my public IP address (if not using a VPN)
+  * loss of uploaded assets
+
+By clicking OK you agree to all the statements above.
+
+  "
