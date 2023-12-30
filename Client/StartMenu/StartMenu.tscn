@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://drjm3l4qg8tvx"]
+[gd_scene load_steps=5 format=3 uid="uid://drjm3l4qg8tvx"]
 
 [ext_resource type="Texture2D" uid="uid://6sya06424rxt" path="res://StartMenu/startMenuPic.png" id="1_ds48x"]
 [ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_dmt0x"]
+[ext_resource type="Script" path="res://StartMenu/ItemList.gd" id="3_n1eof"]
+[ext_resource type="AudioStream" uid="uid://cvq0yqtg20i6w" path="res://Music/UI_Select_chime.wav" id="4_3owfl"]
 
 [node name="StartMenu" type="TextureRect"]
 anchors_preset = 15
@@ -23,12 +25,18 @@ offset_right = 837.0
 offset_bottom = 545.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hovered_color = Color(0.2, 0.870588, 0, 1)
+theme_override_colors/font_selected_color = Color(0.2, 0.870588, 0, 1)
 theme_override_fonts/font = ExtResource("2_dmt0x")
 theme_override_font_sizes/font_size = 32
 item_count = 3
 item_0/text = "Join Server"
 item_1/text = "Create Account"
 item_2/text = "EXIT"
+script = ExtResource("3_n1eof")
+
+[node name="UISelectAudio" type="AudioStreamPlayer" parent="ItemList"]
+stream = ExtResource("4_3owfl")
+volume_db = -25.297
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
@@ -44,3 +52,5 @@ theme_override_font_sizes/font_size = 64
 text = "Godot Online"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="item_clicked" from="ItemList" to="ItemList" method="_on_item_clicked"]

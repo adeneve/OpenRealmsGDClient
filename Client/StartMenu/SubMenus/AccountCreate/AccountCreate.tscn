@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://crc77sjiuw8nh"]
+
+[ext_resource type="Texture2D" uid="uid://6sya06424rxt" path="res://StartMenu/startMenuPic.png" id="1_vihaf"]
+[ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_d7e3e"]
+[ext_resource type="Script" path="res://StartMenu/SubMenus/AccountCreate/AccountCreate.gd" id="2_watbl"]
+[ext_resource type="Script" path="res://StartMenu/SubMenus/AccountCreate/BackButton.gd" id="3_m0fko"]
+
+[node name="AccountCreate" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = 6.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_vihaf")
+expand_mode = 1
+script = ExtResource("2_watbl")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 274.0
+offset_top = 67.0
+offset_right = 875.0
+offset_bottom = 145.0
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_d7e3e")
+theme_override_font_sizes/font_size = 64
+text = "Create Account"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 153.0
+offset_right = 1153.0
+offset_bottom = 491.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(500, 2.08165e-12)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
+layout_mode = 2
+placeholder_text = "Email Address"
+
+[node name="LineEdit2" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Confirm Email Address"
+
+[node name="LineEdit3" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Phone Number"
+
+[node name="LineEdit4" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="CreateAccountButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_d7e3e")
+text = "Create Account"
+
+[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_d7e3e")
+text = "Back"
+script = ExtResource("3_m0fko")
+
+[node name="TextEdit" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 100)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_d7e3e")
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/CreateAccountButton" to="." method="_on_create_account_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/BackButton" to="CenterContainer/VBoxContainer/BackButton" method="_on_pressed"]
