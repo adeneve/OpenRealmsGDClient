@@ -23,6 +23,10 @@ func _on_item_clicked(index, _at_position, _mouse_button_index):
 			get_tree().change_scene_to_file(accountCreatePath)
 		2:
 			get_tree().quit()
-	pass # Replace with function body.
 
 
+
+
+
+func _on_confirmation_dialog_confirmed():
+	get_tree().change_scene_to_file(joinServerPath)

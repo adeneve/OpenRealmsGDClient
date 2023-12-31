@@ -18,10 +18,6 @@ func _ready():
 func _process(_delta):
 	pass
 
-func load_file(path):
-	var file = FileAccess.open(path, FileAccess.READ)
-	var content = file.get_as_text()
-	return content
 	
 	
 func _on_create_account_button_pressed():
