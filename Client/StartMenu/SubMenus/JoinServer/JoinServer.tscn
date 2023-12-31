@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2dwqvt1bptyt"]
+[gd_scene load_steps=5 format=3 uid="uid://d2dwqvt1bptyt"]
 
 [ext_resource type="Texture2D" uid="uid://b7y0mfaq5qxme" path="res://StartMenu/startMenuPic.png" id="1_1vssv"]
 [ext_resource type="Script" path="res://StartMenu/SubMenus/JoinServer/JoinServer.gd" id="2_2ku7c"]
 [ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="2_55x6t"]
+[ext_resource type="Script" path="res://Networking/WebSocketClient/WebSocketClient.gd" id="4_xtlcs"]
 
 [node name="JoinServer" type="TextureRect"]
 anchors_preset = 15
@@ -43,6 +44,10 @@ custom_minimum_size = Vector2(300, 40)
 layout_mode = 2
 placeholder_text = "Server address"
 
+[node name="Port" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Port"
+
 [node name="Connect" type="Button" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 50)
 layout_mode = 2
@@ -61,5 +66,11 @@ layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_fonts/normal_font = ExtResource("2_55x6t")
 
+[node name="WebSocketClient" type="Node" parent="."]
+script = ExtResource("4_xtlcs")
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="connected_to_server" from="WebSocketClient" to="." method="_on_web_socket_client_connected_to_server"]
+[connection signal="connection_closed" from="WebSocketClient" to="." method="_on_web_socket_client_connection_closed"]
+[connection signal="message_received" from="WebSocketClient" to="." method="_on_web_socket_client_message_received"]

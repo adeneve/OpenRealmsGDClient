@@ -15,6 +15,10 @@ run/main_scene="res://StartMenu/StartMenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://Utils/Globals.gd"
+
 [display]
 
 window/stretch/mode="viewport"
