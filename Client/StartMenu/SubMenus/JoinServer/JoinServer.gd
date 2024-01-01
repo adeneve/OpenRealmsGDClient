@@ -13,6 +13,10 @@ var StartMenuPath = "res://StartMenu/StartMenu.tscn"
 @onready var _client: WebSocketClient = $WebSocketClient
 
 var webSocketConnectionVerified = false
+var ENetConnectionVerified = false
+
+@onready var pubkey: String = ""
+@onready var prvkey: String = ""
 
 
 func info(msg):
@@ -38,6 +42,8 @@ func _on_web_socket_client_message_received(message):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	multiplayer.connected_to_server.connect(_on_connected_ok)
+	multiplayer.connection_failed.connect(_on_connected_fail)
 	pass # Replace with function body.
 
 
@@ -52,12 +58,27 @@ func load_file(path):
 	var content = file.get_as_text()
 	return content
 
+
+func sendRSApubKey_fromClient(): # Connected to some input.
+	sendRSApubkey.rpc_id(1, pubkey) # Send the input only to the server.
+
+
+# Call local is required if the server is also a player.
+@rpc("any_peer", "call_remote", "reliable")
+func sendRSApubkey(publicKey):
+	# The server knows who sent the input.
+	print("received key: " + publicKey)
+	var sender_id = multiplayer.get_remote_sender_id()
+	print("from sender_id: " + str(sender_id))
+	# Process the input and affect game logic.
+	
 func _on_connect_pressed():
 	webSocketConnectionVerified = false
+	ENetConnectionVerified = false
 	# check if RSA key is present
 	print(pubKeyPath)
-	var pubkey = load_file(pubKeyPath)
-	var prvkey = load_file(prvKeyPath)
+	pubkey = load_file(pubKeyPath)
+	prvkey = load_file(prvKeyPath)
 	if pubkey == null or prvkey == null:
 		UI_info("No RSA public/private key found, please go to 'Create Account' to generate an RSA public/private key pair")
 		return
@@ -66,6 +87,7 @@ func _on_connect_pressed():
 	#1. test connection to WebSocketServer
 	UI_info("attempting to connect to WebSocket Server...")
 	if _host.text == "" or _port.text == "":
+		UI_info("Please specify both server name and port")
 		return
 	info("Connecting to host: %s." % [_host.text])
 	#use port for Enet, and port+1 for WebSocket
@@ -84,18 +106,36 @@ func _on_connect_pressed():
 		return
 	
 	Globals.hostname = _host.text 
-	Globals.port = int(_port.text)
+	Globals.ENetport = int(_port.text)
+	Globals.WebSocketport = webSocketPort
 	
 	print(Globals.hostname)
 	#2. test connection to ENet Server
+	# Create client.
+
+	UI_info("attempting to connect to ENet Server...")
+	var peer = ENetMultiplayerPeer.new()
+	peer.create_client(_host.text, Globals.ENetport)
+	multiplayer.multiplayer_peer = peer
+	
+	await get_tree().create_timer(5).timeout
+	
+	if ENetConnectionVerified:
+		UI_info("Successfully connected to ENet Server")
+	else:
+		UI_info("failed to connect to ENet server")
+		return
 	
 	#3. verify RSA key with ENet RPCs
+	sendRSApubKey_fromClient()
 	
-	#4. switch to empty 3D scene
+	#4. close connections
 	
-	#5. download required assets from server (WebSocket) if not already cached
+	#5. switch to empty 3D scene, and reconnect in that scene with globals
 	
-	#6. build world from assets
+	#6. download required assets from server (WebSocket) if not already cached
+	
+	#7. build world from assets
 
 	# Websocket looks like a good choice for file transfers
 
@@ -105,3 +145,11 @@ func _on_connect_pressed():
 func _on_back_button_pressed():
 	get_tree().change_scene_to_file(StartMenuPath)
 	pass # Replace with function body.
+	
+func _on_connected_ok():
+	ENetConnectionVerified = true
+	pass
+
+func _on_connected_fail():
+	ENetConnectionVerified = false
+	pass
