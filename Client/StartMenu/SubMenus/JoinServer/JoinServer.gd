@@ -14,6 +14,7 @@ var StartMenuPath = "res://StartMenu/StartMenu.tscn"
 
 var webSocketConnectionVerified = false
 var ENetConnectionVerified = false
+var RSAPubKeyVerified = false
 
 @onready var pubkey: String = ""
 @onready var prvkey: String = ""
@@ -28,7 +29,7 @@ func UI_info(msg):
 # Client signals
 func _on_web_socket_client_connection_closed():
 	var ws = _client.get_socket()
-	info("Client just disconnected with code: %s, reson: %s" % [ws.get_close_code(), ws.get_close_reason()])
+	info("Client just disconnected with code: %s, reason: %s" % [ws.get_close_code(), ws.get_close_reason()])
 	webSocketConnectionVerified = false
 
 
@@ -59,18 +60,43 @@ func load_file(path):
 	return content
 
 
-func sendRSApubKey_fromClient(): # Connected to some input.
-	sendRSApubkey.rpc_id(1, pubkey) # Send the input only to the server.
+@rpc("authority", "call_remote", "reliable")
+func RSAPubKeyIsValid(valid):
+	#decrypt on client side
+	#and finally verify on server side
+	if valid:
+		RSAPubKeyVerified = true
+	else:
+		RSAPubKeyVerified = false
+	
+@rpc("authority", "call_remote", "reliable")
+func sendEncryptedInt(eint):
+	#decrypt on client side
+	#and finally verify on server side
+	print("recieved encrypted int")
+	print(eint)
+	#now decrypt it with prvKey
+	var pk = CryptoKey.new()
+	pk.load_from_string(prvkey, false)
+	var c = Crypto.new()
+	var dint = c.decrypt(pk, eint)
+	var sint = dint.get_string_from_utf8()
+	print(sint)
+	# now send it back to complete verfication
+	sendDecryptedInt.rpc_id(1, int(sint))
 
 
 # Call local is required if the server is also a player.
 @rpc("any_peer", "call_remote", "reliable")
 func sendRSApubkey(publicKey):
-	# The server knows who sent the input.
-	print("received key: " + publicKey)
-	var sender_id = multiplayer.get_remote_sender_id()
-	print("from sender_id: " + str(sender_id))
-	# Process the input and affect game logic.
+	# invoke on server side
+	pass
+	
+@rpc("any_peer", "call_remote", "reliable")
+func sendDecryptedInt(dint):
+	# invoked on server side
+	pass
+
 	
 func _on_connect_pressed():
 	webSocketConnectionVerified = false
@@ -97,7 +123,7 @@ func _on_connect_pressed():
 		info("Error connecting to host: %s" % [_host.text])
 		return
 	
-	await get_tree().create_timer(5).timeout
+	await get_tree().create_timer(3).timeout
 	
 	if webSocketConnectionVerified:
 		UI_info("Successfully connected to WebSocket Server")
@@ -118,7 +144,7 @@ func _on_connect_pressed():
 	peer.create_client(_host.text, Globals.ENetport)
 	multiplayer.multiplayer_peer = peer
 	
-	await get_tree().create_timer(5).timeout
+	await get_tree().create_timer(3).timeout
 	
 	if ENetConnectionVerified:
 		UI_info("Successfully connected to ENet Server")
@@ -126,14 +152,35 @@ func _on_connect_pressed():
 		UI_info("failed to connect to ENet server")
 		return
 	
+	UI_info("verifying RSA public key...")
 	#3. verify RSA key with ENet RPCs
-	sendRSApubKey_fromClient()
+	sendRSApubkey.rpc_id(1, pubkey) # Send the input only to the server.
+	
+	#wait for RSA verification
+	#~ 5 seconds
+	await get_tree().create_timer(3).timeout
+	
+	if RSAPubKeyVerified:
+		UI_info("Successfully validated RSA public key")
+	else:
+		UI_info("failed to validate RSA public key")
+		return
 	
 	#4. close connections
+	multiplayer.multiplayer_peer = null
+	_client.close()
 	
 	#5. switch to empty 3D scene, and reconnect in that scene with globals
 	
 	#6. download required assets from server (WebSocket) if not already cached
+	 # during this step, you can use checksums to
+	# verify that the file was reliably sent
+	# build file in memory, then use FileAcees
+	# to save the file to Godot folder
+	# may be able to send large files
+	# without fragmenting if websocket allows it
+	# try this first
+	# should glb be downloaded, or
 	
 	#7. build world from assets
 
