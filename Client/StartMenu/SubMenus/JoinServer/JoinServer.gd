@@ -6,6 +6,7 @@ var userDir = OS.get_data_dir()
 var pubKeyPath = userDir + "/Godot/app_userdata/Godot Online Client/generated.pub"
 var prvKeyPath = userDir + "/Godot/app_userdata/Godot Online Client/generated_prv.key"
 var StartMenuPath = "res://StartMenu/StartMenu.tscn"
+var GamePath = "res://Game/JoinServer.tscn"
 
 @onready var _host = $CenterContainer/VBoxContainer/ServerAddress
 @onready var _port = $CenterContainer/VBoxContainer/Port
@@ -171,6 +172,7 @@ func _on_connect_pressed():
 	_client.close()
 	
 	#5. switch to empty 3D scene, and reconnect in that scene with globals
+	get_tree().change_scene_to_file(GamePath)
 	
 	#6. download required assets from server (WebSocket) if not already cached
 	 # during this step, you can use checksums to

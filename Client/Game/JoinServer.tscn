@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhohn6f24goh7"]
+
+[ext_resource type="Script" path="res://Game/JoinServer.gd" id="1_esix6"]
+[ext_resource type="Script" path="res://Networking/WebSocketClient/WebSocketClient.gd" id="2_8rqf8"]
+
+[node name="JoinServer" type="Node"]
+script = ExtResource("1_esix6")
+
+[node name="WebSocketClient" type="Node" parent="."]
+script = ExtResource("2_8rqf8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62931, 0)
+
+[connection signal="connected_to_server" from="WebSocketClient" to="." method="_on_web_socket_client_connected_to_server"]
+[connection signal="message_received" from="WebSocketClient" to="." method="_on_web_socket_client_message_received"]
