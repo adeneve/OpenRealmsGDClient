@@ -16,6 +16,7 @@ expand_mode = 1
 script = ExtResource("2_2ku7c")
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 offset_left = 274.0
 offset_top = 67.0
 offset_right = 875.0
