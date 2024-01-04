@@ -1,7 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://bhohn6f24goh7"]
+[gd_scene load_steps=8 format=3 uid="uid://bhohn6f24goh7"]
 
 [ext_resource type="Script" path="res://Game/JoinServer.gd" id="1_esix6"]
 [ext_resource type="Script" path="res://Networking/WebSocketClient/WebSocketClient.gd" id="2_8rqf8"]
+[ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="3_ru1e2"]
+[ext_resource type="Script" path="res://HUD/Loading.gd" id="4_crw35"]
+
+[sub_resource type="Animation" id="Animation_k58lc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.494118, 0.639216, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_15ur6"]
+resource_name = "loading"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.3, 2.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.494118, 0.639216, 1, 1), Color(0.980392, 0.305882, 1, 1), Color(0.494118, 0.639216, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ovs1f"]
+_data = {
+"RESET": SubResource("Animation_k58lc"),
+"loading": SubResource("Animation_15ur6")
+}
 
 [node name="JoinServer" type="Node"]
 script = ExtResource("1_esix6")
@@ -11,6 +51,38 @@ script = ExtResource("2_8rqf8")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62931, 0)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="CC" type="CenterContainer" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -158.5
+offset_top = -20.0
+offset_right = 158.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Loading" type="Label" parent="HUD/CC"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.494118, 0.639216, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ru1e2")
+theme_override_font_sizes/font_size = 32
+text = "LOADING SCENE"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_crw35")
+
+[node name="LoadingAnimation" type="AnimationPlayer" parent="HUD/CC/Loading"]
+libraries = {
+"": SubResource("AnimationLibrary_ovs1f")
+}
 
 [connection signal="connected_to_server" from="WebSocketClient" to="." method="_on_web_socket_client_connected_to_server"]
 [connection signal="message_received" from="WebSocketClient" to="." method="_on_web_socket_client_message_received"]
