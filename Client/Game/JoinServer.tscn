@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhohn6f24goh7"]
+[gd_scene load_steps=8 format=3 uid="uid://bhohn6f24goh7"]
 
 [ext_resource type="Script" path="res://Game/JoinServer.gd" id="1_esix6"]
-[ext_resource type="Script" path="res://Networking/WebSocketClient/WebSocketClient.gd" id="2_8rqf8"]
 [ext_resource type="Script" path="res://Game/CameraController.gd" id="3_l2bgp"]
 [ext_resource type="FontFile" uid="uid://ceupvxrwqcxvb" path="res://Fonts/nulshock bd.otf" id="3_ru1e2"]
 [ext_resource type="Script" path="res://HUD/Loading.gd" id="4_crw35"]
@@ -47,9 +46,6 @@ _data = {
 [node name="JoinServer" type="Node"]
 script = ExtResource("1_esix6")
 
-[node name="WebSocketClient" type="Node" parent="."]
-script = ExtResource("2_8rqf8")
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62931, 0)
 script = ExtResource("3_l2bgp")
@@ -86,5 +82,6 @@ libraries = {
 "": SubResource("AnimationLibrary_ovs1f")
 }
 
-[connection signal="connected_to_server" from="WebSocketClient" to="." method="_on_web_socket_client_connected_to_server"]
-[connection signal="message_received" from="WebSocketClient" to="." method="_on_web_socket_client_message_received"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.151278, 0.988491, 0, -0.988491, 0.151278, 0, 8.41919, 0)
+shadow_enabled = true
