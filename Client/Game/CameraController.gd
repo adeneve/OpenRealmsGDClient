@@ -28,6 +28,8 @@ var _e = false
 var _shift = false
 var _alt = false
 
+signal inputRecieved
+
 func _input(event):
 	# Receives mouse motion
 	if event is InputEventMouseMotion:
@@ -62,6 +64,8 @@ func _input(event):
 				_shift = event.pressed
 			KEY_ALT:
 				_alt = event.pressed
+				
+
 
 # Updates mouselook and movement every frame
 func _process(delta):
@@ -98,11 +102,15 @@ func _update_movement(delta):
 		_velocity.z = clamp(_velocity.z + offset.z, -_vel_multiplier, _vel_multiplier)
 	
 		translate(_velocity * delta * speed_multi)
+		
+		if _velocity != Vector3.ZERO:
+			emit_signal("inputRecieved", position)
 
 # Updates mouse look 
 func _update_mouselook():
 	# Only rotates mouse if the mouse is captured
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		emit_signal("inputRecieved", position)
 		_mouse_position *= sensitivity
 		var yaw = _mouse_position.x
 		var pitch = _mouse_position.y

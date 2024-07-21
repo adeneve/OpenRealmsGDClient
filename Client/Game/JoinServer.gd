@@ -9,15 +9,44 @@ var gltfArray = PackedByteArray()
 func _ready():
 	#connect to http server
 	#placeholder code.. texture file names should be dynamically provided
-	load_gltf_from_server("/mainScene/textures/aba_rope_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/aba_rope_normal.png")
-	load_gltf_from_server("/mainScene/textures/fern_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/gradient_color_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/grass_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/leave_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Aspalht_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/BarbedWire_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/BrownWood_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/CMetalB_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/CMetal_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/CmetalR_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/DevRed_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/DirtRoad_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Door_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/FireworkBox1_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/FireworkBox2_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/FireworkBox3_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/FireworkBox4_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Flag_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Floor1_baseColor.jpeg")
+	load_gltf_from_server("/mainScene/textures/Floor2_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/GMetal_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Materiais.001_baseColor.jpeg")
+	load_gltf_from_server("/mainScene/textures/Materiais.003_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Material.004_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Pwood_baseColor.jpeg")
+	load_gltf_from_server("/mainScene/textures/Road_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/RockWall2_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/RockWall_baseColor.jpeg")
+	load_gltf_from_server("/mainScene/textures/RustyMetal_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/SandStone_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Sign2_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/ThugPro_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Track_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/VanMat_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/WFS1_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/Whitewood_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/material_19_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/material_29_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/material_39_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/material_40_baseColor.png")
+	load_gltf_from_server("/mainScene/textures/material_41_baseColor.png")
 	load_gltf_from_server("/mainScene/textures/material_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/reed_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/soil_baseColor.png")
 	load_gltf_from_server("/mainScene/scene.bin")
 	load_gltf_from_server("/mainScene/scene.gltf")
 	var gltd = GLTFDocument.new()
@@ -38,7 +67,7 @@ func load_gltf_from_server(path):
 	# Wait until resolved and connected.
 	while http.get_status() == HTTPClient.STATUS_CONNECTING or http.get_status() == HTTPClient.STATUS_RESOLVING:
 		http.poll()
-		print("Connecting...")
+		#print("Connecting...")
 		#await get_tree().process_frame
 
 	assert(http.get_status() == HTTPClient.STATUS_CONNECTED) # Check if the connection was made successfully.
@@ -55,7 +84,7 @@ func load_gltf_from_server(path):
 	while http.get_status() == HTTPClient.STATUS_REQUESTING:
 		# Keep polling for as long as the request is being processed.
 		http.poll()
-		print("Requesting...")
+		#print("Requesting...")
 		#await get_tree().process_frame
 
 	assert(http.get_status() == HTTPClient.STATUS_BODY or http.get_status() == HTTPClient.STATUS_CONNECTED) # Make sure request finished well.
