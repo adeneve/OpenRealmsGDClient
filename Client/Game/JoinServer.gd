@@ -1,63 +1,47 @@
 extends Node
 
-
 var webSocketConnected = false
 
 var gltfArray = PackedByteArray()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#create gltf folders
+	DirAccess.make_dir_recursive_absolute("res://Scenes/mainScene/textures/")
 	#connect to http server
 	#placeholder code.. texture file names should be dynamically provided
-	load_gltf_from_server("/mainScene/textures/Aspalht_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/BarbedWire_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/BrownWood_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/CMetalB_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/CMetal_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/CmetalR_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/DevRed_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/DirtRoad_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Door_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/FireworkBox1_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/FireworkBox2_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/FireworkBox3_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/FireworkBox4_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Flag_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Floor1_baseColor.jpeg")
-	load_gltf_from_server("/mainScene/textures/Floor2_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/GMetal_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Materiais.001_baseColor.jpeg")
-	load_gltf_from_server("/mainScene/textures/Materiais.003_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Material.004_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Pwood_baseColor.jpeg")
-	load_gltf_from_server("/mainScene/textures/Road_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/RockWall2_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/RockWall_baseColor.jpeg")
-	load_gltf_from_server("/mainScene/textures/RustyMetal_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/SandStone_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Sign2_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/ThugPro_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Track_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/VanMat_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/WFS1_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/Whitewood_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/material_19_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/material_29_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/material_39_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/material_40_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/material_41_baseColor.png")
-	load_gltf_from_server("/mainScene/textures/material_baseColor.png")
-	load_gltf_from_server("/mainScene/scene.bin")
-	load_gltf_from_server("/mainScene/scene.gltf")
+	#placeholder world name and user
+	var user = Globals.username
+	var worldName = Globals.worldname
+	
+	#get list of textures then save them
+	var path = "/get_scene_texture_file_list/"+user+"/"+worldName
+	var rb = load_data_from_server(path)
+	var text = rb.get_string_from_ascii()
+	var textureArray = str_to_var(text)
+	for textFile in textureArray:
+		path = "/worlds/"+user+"/"+worldName+"/mainScene/textures/"+textFile
+		rb = load_data_from_server(path)
+		save("res://Scenes/mainScene/textures/"+textFile, rb)
+	
+	path = "/worlds/"+user+"/"+worldName+"/mainScene/scene.bin"
+	rb = load_data_from_server(path)
+	save("res://Scenes/mainScene/scene.bin", rb)
+	
+	path = "/worlds/"+user+"/"+worldName+"/mainScene/scene.gltf"
+	rb = load_data_from_server(path)
+	save("res://Scenes/mainScene/scene.gltf", rb)
+	
 	var gltd = GLTFDocument.new()
 	var gltfs = GLTFState.new()
 	gltd.append_from_file("res://Scenes/mainScene/scene.gltf", gltfs)
 	var node = gltd.generate_scene(gltfs)
 	add_child(node)
+	addCollisionMesh(node)
 	print("Done")
 	pass
 
-func load_gltf_from_server(path):
+func load_data_from_server(path):
 	var err = 0
 	var http = HTTPClient.new() # Create the Client.
 
@@ -128,22 +112,9 @@ func load_gltf_from_server(path):
 		var text = rb.get_string_from_ascii()
 		#print(text)
 		#store byte array as file 'scene.gltf'
-		save("res://Scenes"+path, rb)
-		http.close()
 
-func build_GLTF_Resource(byteArray):
-	var glfd = GLTFDocument.new()
-	var glfs = GLTFState.new()
-	print("bop")
-	print(gltfArray.size())
-	glfd.append_from_buffer(gltfArray, "", glfs)
-	var node = glfd.generate_scene(glfs)
-	#glfd.write_to_filesystem(glfs, "res://Game/test.glb")
-	add_child(node)
-	node.print_tree()
-	$HUD/CC/Loading.visible = false
-	pass
-	#51392000
+		http.close()
+		return rb
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

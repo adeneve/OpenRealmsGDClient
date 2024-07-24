@@ -2,6 +2,7 @@
 .godot/
 
 Client/Scenes/mainScene
+Client/Characters
 # Godot-specific ignores
 .import/
 export.cfg

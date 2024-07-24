@@ -10,7 +10,8 @@ var GamePath = "res://Game/JoinServer.tscn"
 
 @onready var _host = $CenterContainer/VBoxContainer/ServerAddress
 @onready var _port = $CenterContainer/VBoxContainer/Port
-
+@onready var _username = $CenterContainer/VBoxContainer/Username
+@onready var _worldname = $CenterContainer/VBoxContainer/WorldName
 
 @onready var pubkey: String = ""
 @onready var prvkey: String = ""
@@ -71,7 +72,9 @@ func _on_connect_pressed():
 	
 	Globals.hostname = _host.text 
 	Globals.WebServerPort = _port.text
-	Globals.SocketIOPort = 0 #placeholder
+	Globals.SocketIOPort = int(_port.text)+1
+	Globals.username = _username.text
+	Globals.worldname = _worldname.text
 	
 	print(Globals.hostname)
 	
