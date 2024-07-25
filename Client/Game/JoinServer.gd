@@ -3,16 +3,20 @@ extends Node
 var webSocketConnected = false
 
 var gltfArray = PackedByteArray()
-
+const cat_new = preload("res://Testing/cat_new.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#create gltf folders
 	DirAccess.make_dir_recursive_absolute("res://Scenes/mainScene/textures/")
+	DirAccess.make_dir_recursive_absolute("res://Characters/Cat/textures/")
 	#connect to http server
 	#placeholder code.. texture file names should be dynamically provided
 	#placeholder world name and user
 	var user = Globals.username
 	var worldName = Globals.worldname
+	var characterName = "Cat"
+	
+	#for now, user will simply download a default character
 	
 	#get list of textures then save them
 	var path = "/get_scene_texture_file_list/"+user+"/"+worldName
@@ -38,6 +42,41 @@ func _ready():
 	var node = gltd.generate_scene(gltfs)
 	add_child(node)
 	addCollisionMesh(node)
+	
+	path = "/get_character_texture_file_list/"+characterName
+	rb = load_data_from_server(path)
+	text = rb.get_string_from_ascii()
+	textureArray = str_to_var(text)
+	for textFile in textureArray:
+		path = "/characters/"+characterName+"/textures/"+textFile
+		rb = load_data_from_server(path)
+		save("res://Characters/Cat/textures/"+textFile, rb)
+		
+	path = "/characters/"+characterName+"/scene.bin"
+	rb = load_data_from_server(path)
+	save("res://Characters/"+characterName+"/scene.bin", rb)
+	
+	path = "/characters/"+characterName+"/scene.gltf"
+	rb = load_data_from_server(path)
+	save("res://Characters/"+characterName+"/scene.gltf", rb)
+	
+	gltd = GLTFDocument.new()
+	gltfs = GLTFState.new()
+	gltd.append_from_file("res://Characters/"+characterName+"/scene.gltf", gltfs)
+	var char_node = gltd.generate_scene(gltfs)
+	var char_body = CharacterBody3D.new()
+	addCollisionMesh(char_node)
+	char_body.add_child(char_node)
+	char_body.set_script(load("res://Scripts/Player.gd"))
+	#add_child(char_body)
+
+	var cat_instance = cat_new.instantiate()
+	add_child(cat_instance)
+	# cat instance created from gltf file
+	# should be similar to the above one
+	#set a basic physics script on char node
+
+	
 	print("Done")
 	pass
 
