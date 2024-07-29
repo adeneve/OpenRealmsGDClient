@@ -5,6 +5,10 @@ var backendURL: String
 
 var socketReady = false
 
+var userID = -1
+
+var playerDict = {}
+
 signal sendUpdate
 
 func _ready():
@@ -25,6 +29,8 @@ func _ready():
 	
 	# add client to tree to start websocket
 	add_child(client)
+	
+
 
 
 
@@ -41,18 +47,28 @@ func on_socket_connect(_payload: Variant, _name_space, error: bool):
 		push_error("Failed to connect to backend!")
 	else:
 		print("Socket connected")
+		print(_payload)
+		userID = _payload["sid"]
 		socketReady = true
 		#var testData = {"playerID":1, "x":0}
 		#client.socketio_send("player_update", testData)
 
 func on_socket_event(event_name: String, payload: Variant, _name_space):
-	print("Received ", event_name, " ", payload)
+	#print("Received ", event_name, " ", payload)
 	# respond hello world
 	#client.socketio_send("hello", "world")
+	# iterate through playerIDs that are not this one
+	payload = payload as Dictionary
+	payload.erase(userID)
+	print(payload)
+	emit_signal("sendUpdate", payload)
+	#root node handles all child nodes
+	# so send to root node
+	
 
 
-func _on_camera_3d_input_recieved(pos):
+func _on_player_body_input_recieved(pos):
 	if socketReady:
-		var testData = {"playerID":1, "x": pos.x}
+		var testData = {"playerID":userID, "x": pos.x, "y": pos.y, "z": pos.z}
 		client.socketio_send("player_update", testData)
 	pass # Replace with function body.

@@ -28,7 +28,6 @@ var _e = false
 var _shift = false
 var _alt = false
 
-signal inputRecieved
 
 func _input(event):
 	# Receives mouse motion
@@ -45,6 +44,7 @@ func _input(event):
 			MOUSE_BUTTON_WHEEL_DOWN: # Decereases max velocity
 				_vel_multiplier = clamp(_vel_multiplier / 1.1, 0.2, 20)
 
+	return
 	# Receives key input
 	if event is InputEventKey:
 		match event.keycode:
@@ -69,8 +69,9 @@ func _input(event):
 
 # Updates mouselook and movement every frame
 func _process(delta):
+	pass
 	_update_mouselook()
-	_update_movement(delta)
+	#_update_movement(delta)
 
 # Updates camera movement
 func _update_movement(delta):
@@ -110,7 +111,6 @@ func _update_movement(delta):
 func _update_mouselook():
 	# Only rotates mouse if the mouse is captured
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		emit_signal("inputRecieved", position)
 		_mouse_position *= sensitivity
 		var yaw = _mouse_position.x
 		var pitch = _mouse_position.y
@@ -122,3 +122,10 @@ func _update_mouselook():
 	
 		rotate_y(deg_to_rad(-yaw))
 		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
+
+
+func _on_player_body_input_recieved(pos):
+	position.x = pos.x - 2
+	position.y = pos.y + 1.5
+	position.z = pos.z
+	pass # Replace with function body.
