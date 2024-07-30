@@ -66,11 +66,15 @@ func _input(event):
 				_alt = event.pressed
 				
 
-
+func _ready():
+	#position.y += 1.5
+	#position.z -= 2
+	pass
+	
 # Updates mouselook and movement every frame
 func _process(delta):
 	pass
-	_update_mouselook()
+	#_update_mouselook()
 	#_update_movement(delta)
 
 # Updates camera movement
@@ -125,7 +129,7 @@ func _update_mouselook():
 
 
 func _on_player_body_input_recieved(pos):
-	position.x = pos.x - 2
-	position.y = pos.y + 1.5
-	position.z = pos.z
+	#position.x = pos.x
+	#position.y = pos.y + 1.5
+	#position.z = pos.z - 2
 	pass # Replace with function body.

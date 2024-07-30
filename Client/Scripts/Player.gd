@@ -31,6 +31,8 @@ func _process2(delta):
 const SHIFT_MULTIPLIER = 2.5
 const ALT_MULTIPLIER = 1.0 / SHIFT_MULTIPLIER
 
+var copyRads = 0
+
 
 @export_range(0.0, 1.0) var sensitivity: float = 0.25
 
@@ -98,7 +100,7 @@ func _input(event):
 
 # Updates mouselook and movement every frame
 func _process(delta):
-	#_update_mouselook()
+	_update_mouselook()
 	_update_movement(delta)
 	
 
@@ -106,10 +108,15 @@ func _process(delta):
 func _update_movement(delta):
 	# Computes desired direction from key states
 	_direction = Vector3(
-		(_d as float) - (_a as float), 
+		(_a as float) - (_d as float), 
 		(_e as float) - (_q as float),
-		(_s as float) - (_w as float)
+		(_w as float) - (_s as float)
 	)
+	
+	
+	print(deg_to_rad(rotation.y))
+	_direction = _direction.rotated(Vector3(0,1,0), rotation.y)
+	
 	
 	# Computes the change in velocity due to desired direction and "drag"
 	# The "drag" is a constant acceleration on the camera to bring it's velocity to 0
@@ -160,9 +167,11 @@ func _update_mouselook():
 		# Prevents looking up/down too far
 		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
 		_total_pitch += pitch
+		
+		copyRads = deg_to_rad(-yaw)
 	
 		rotate_y(deg_to_rad(-yaw))
-		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
+		#rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
 		
 	
 func getAnimationPlayer(node) -> AnimationPlayer:

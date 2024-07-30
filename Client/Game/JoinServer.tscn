@@ -48,10 +48,6 @@ _data = {
 [node name="JoinServer" type="Node"]
 script = ExtResource("1_esix6")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62931, 1.5959)
-script = ExtResource("3_l2bgp")
-
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="CC" type="CenterContainer" parent="HUD"]
@@ -94,6 +90,10 @@ script = ExtResource("5_ryckc")
 [node name="PlayerBody" type="CharacterBody3D" parent="."]
 script = ExtResource("6_p84rm")
 
+[node name="Camera3D" type="Camera3D" parent="PlayerBody"]
+transform = Transform3D(-0.999972, 0, -0.00750503, 0, 1, 0, 0.00750503, 0, -0.999972, 2.08165e-12, 1.5, -2)
+script = ExtResource("3_l2bgp")
+
 [connection signal="sendUpdate" from="socketIOClient" to="." method="_on_socket_io_client_send_update"]
-[connection signal="inputRecieved" from="PlayerBody" to="Camera3D" method="_on_player_body_input_recieved"]
 [connection signal="inputRecieved" from="PlayerBody" to="socketIOClient" method="_on_player_body_input_recieved"]
+[connection signal="inputRecieved" from="PlayerBody" to="PlayerBody/Camera3D" method="_on_player_body_input_recieved"]

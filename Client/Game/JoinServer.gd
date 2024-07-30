@@ -62,6 +62,11 @@ func _ready():
 	rb = load_data_from_server(path)
 	save("res://Characters/"+characterName+"/scene.gltf", rb)
 	
+	path = "/characters/"+characterName+"/collisionShape.json"
+	rb = load_data_from_server(path)
+	var collisionInfo = JSON.parse_string(rb.get_string_from_ascii())
+	
+	
 	gltd = GLTFDocument.new()
 	gltfs = GLTFState.new()
 	gltd.append_from_file("res://Characters/"+characterName+"/scene.gltf", gltfs)
@@ -71,13 +76,14 @@ func _ready():
 	
 	var collisionShape = CollisionShape3D.new()
 	
-	var capsule = CapsuleShape3D.new()
-	collisionShape.shape = capsule
-	collisionShape.position.y = 1
+	if collisionInfo.shape == "capsule":
+		var capsule = CapsuleShape3D.new()
+		collisionShape.shape = capsule
+		collisionShape.position.x = collisionInfo.position.x
+		collisionShape.position.y = collisionInfo.position.y
+		collisionShape.position.z = collisionInfo.position.z
 	
 	char_body.add_child(collisionShape)
-	
-	
 	
 	
 	#get all abbs and merge
